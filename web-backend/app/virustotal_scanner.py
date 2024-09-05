@@ -1,7 +1,6 @@
 import requests
-from flask import Flask, request, jsonify
-
-app = Flask(__name__)
+import time
+from flask import current_app
 
 VIRUSTOTAL_API_KEY = '2485b753e49426f5a1916993ae38b4bffe4dc22a84248b6461409024c09c7f6a'
 VIRUSTOTAL_API_URL = 'https://www.virustotal.com/api/v3/urls'
@@ -12,38 +11,60 @@ def perform_virustotal_scan(target_url):
         'Content-Type': 'application/x-www-form-urlencoded'
     }
 
+    
     data = f"url={target_url}"
-
-    print(f"Performing VirusTotal scan for URL: {target_url}")
-    print(f"Request URL: {VIRUSTOTAL_API_URL}")
-    print(f"Request Headers: {headers}")
-    print(f"Request Data: {data}")
-
+    
     try:
         response = requests.post(VIRUSTOTAL_API_URL, headers=headers, data=data)
-        print(f"Response Status Code: {response.status_code}")
-        print(f"Response Text: {response.text}")
         response.raise_for_status()
         return response.json()
     except requests.exceptions.RequestException as e:
-        print(f"Exception Occurred: {e}")
         raise RuntimeError(f'Failed to perform VirusTotal scan: {e}')
 
-@app.route('/scan', methods=['POST'])
-def scan_url():
-    data = request.get_json()
-    target_url = data.get('url')
-    
-    if not target_url:
-        return jsonify({'error': 'No URL provided'}), 400
-    
-    try:
-        result = perform_virustotal_scan(target_url)
-        return jsonify(result), 200
-    except RuntimeError as e:
-        return jsonify({'error': str(e)}), 400
+def virustotal_scan(target_url):
+    collection = current_app.db['virustotal_results']
+    target_url = target_url.replace('http://', '').replace('https://', '')
+    existing_result = collection.find_one({'url': target_url})
 
-@app.route('/analysis/<analysis_id>', methods=['GET'])
+    if existing_result:
+        return {
+            'message': f'This URL has already been scanned. Do you want to scan it again?',
+            'id': str(existing_result['_id']),
+            'scan_data': existing_result['scan_data'],
+            'new_scan_url': f'/virustotal_scan_again?url={target_url}'
+        }, 200
+
+    try:
+        scan_data = perform_virustotal_scan(target_url)
+    except RuntimeError as e:
+        return {'error': str(e)}, 400
+
+    result_id = collection.insert_one({
+        'url': target_url,
+        'scan_data': scan_data,
+        'timestamp': time.time()
+    }).inserted_id
+
+    return {'id': str(result_id), 'scan_data': scan_data}, 200
+
+def virustotal_scan_again(target_url):
+    collection = current_app.db['virustotal_results']
+    target_url = target_url.replace('http://', '').replace('https://', '')
+    collection.delete_one({'url': target_url})
+
+    try:
+        scan_data = perform_virustotal_scan(target_url)
+    except RuntimeError as e:
+        return {'error': str(e)}, 400
+
+    result_id = collection.insert_one({
+        'url': target_url,
+        'scan_data': scan_data,
+        'timestamp': time.time()
+    }).inserted_id
+
+    return {'id': str(result_id), 'scan_data': scan_data}, 200
+
 def get_analysis_results(analysis_id):
     url = f"https://www.virustotal.com/api/v3/analyses/{analysis_id}"
     headers = {
@@ -53,9 +74,6 @@ def get_analysis_results(analysis_id):
     try:
         response = requests.get(url, headers=headers)
         response.raise_for_status()
-        return jsonify(response.json()), 200
+        return response.json()
     except requests.exceptions.RequestException as e:
-        return jsonify({'error': str(e)}), 400
-
-if __name__ == '__main__':
-    app.run(debug=True)
+        raise RuntimeError(f'Failed to fetch analysis results: {e}')
