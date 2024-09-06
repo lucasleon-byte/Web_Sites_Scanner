@@ -1,6 +1,6 @@
 import nmap
 import socket
-from flask import jsonify
+from flask import jsonify, request
 from bson import json_util
 import time
 from flask import current_app
@@ -48,7 +48,16 @@ def nmap_scan(target_url):
 
     return {'id': str(result_id), 'scan_data': scan_data}, 200
 
-def nmap_scan_again(target_url):
+def nmap_scan_again():
+    if not request.is_json:
+        return jsonify({'error': 'Content-Type must be application/json'}), 415
+
+    data = request.get_json()
+    target_url = data.get('url')
+    
+    if not target_url:
+        return jsonify({'error': 'No URL provided'}), 400
+
     collection = current_app.db['nmap_results']
     target_url = target_url.replace('http://', '').replace('https://', '')
     collection.delete_one({'url': target_url})

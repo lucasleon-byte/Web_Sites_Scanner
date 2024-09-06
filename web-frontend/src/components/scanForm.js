@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const ScanForm = ({ onScan, onRescan, scannedUrl, loading }) => {
+const ScanForm = ({ onScan, onRescan, scannedUrl, loading, currentTool }) => {
   const [url, setUrl] = useState('');
 
   const handleSubmit = (e) => {
@@ -26,13 +26,18 @@ const ScanForm = ({ onScan, onRescan, scannedUrl, loading }) => {
           onChange={(e) => setUrl(e.target.value)}
           placeholder="Enter URL to scan"
           required
-          disabled={loading} 
+          disabled={loading}
         />
         <button type="submit" className="scan-button" disabled={loading}>
           {loading ? 'Scanning...' : 'Scan'}
         </button>
-        {scannedUrl && (
-          <button type="button" onClick={handleRescanClick} className="rescan-button" disabled={loading}>
+        {scannedUrl && currentTool === 'zap' && (
+          <button
+            type="button"
+            onClick={handleRescanClick}
+            className="rescan-button"
+            disabled={loading}
+          >
             {loading ? 'Rescanning...' : 'Rescan'}
           </button>
         )}

@@ -337,29 +337,3 @@ li:hover {
 .virustotal-data a:hover {
   text-decoration: underline;
 }
-/* Style for the AG Grid container */
-.results-page {
-  display: flex;
-  flex-direction: column;
-  height: 100vh; /* Full viewport height */
-  width: 100vw; /* Full viewport width */
-}
-.ag-theme-alpine-v .ag-header-cell-v {
-  border-right: 1px solid #afb5b4; /* Thicker border for better visibility */
-  background-color: #cbc8c8; /* Light background for header */
-}
-/* Style for AG Grid container */
-.ag-grid-container-v {
-  flex: 1; /* Allows the grid to take up available space */
-  width: 100%; /* Ensures the grid takes up full width */
-}
-
-/* Adjust font size for AG Grid cells */
-.ag-theme-alpine-v .ag-cell-v {
-  font-size: 12px; /* Adjust font size for cells */
-}
-
-/* Adjust font size for AG Grid headers */
-.ag-theme-alpine .ag-header-cell-text {
-  font-size: 14px; /* Adjust font size for headers */
-}

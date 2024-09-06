@@ -4,14 +4,14 @@ import { useNavigate } from 'react-router-dom';
 const ResultsList = ({ results, onSelectAlertType, scannedUrl, currentTool }) => {
     const navigate = useNavigate();
     const [responseData] = Array.isArray(results) ? results : [null];
-    const message = responseData?.message || '';
-    const newScanUrl = responseData?.new_scan_url || '';
+    const message = responseData?.message || results.message ;
+    const newScanUrl = responseData?.new_scan_url || results.new_scan_url;
     const scanData = responseData?.scan_data?.data || {};
 
     const handleLinkClick = (event) => {
-        event.preventDefault(); // Prevent default anchor click
-        const url = `/results/${scanData.id}`; // Construct URL
-        window.open(url, '_blank', 'noopener,noreferrer'); // Open in new tab/window
+        event.preventDefault(); 
+        const url = `/results/${scanData.id}`; 
+        window.open(url, '_blank', 'noopener,noreferrer'); 
     };
 
     const renderResults = () => {
@@ -98,7 +98,7 @@ const ResultsList = ({ results, onSelectAlertType, scannedUrl, currentTool }) =>
             {message && (
                 <div className="message">
                     <p>{message}</p>
-                    {newScanUrl && <a href={newScanUrl}>Scan again</a>}
+                    {newScanUrl && <a href="#">Scan again</a>}
                 </div>
             )}
         </div>

@@ -145,6 +145,7 @@ const App = () => {
             onScan={handleScan}
             onRescan={handleRescan}
             scannedUrl={scannedUrl}
+            currentTool={currentTool}
             loading={loading}
           />
         )}

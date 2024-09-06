@@ -24,7 +24,7 @@ def scan_again():
         return jsonify({'error': 'No URL provided'}), 400
     return zap_scan_again_handler(target_url)
 
-# Results and Alerts Routes
+
 @main.route('/results', methods=['GET'])
 def get_results():
     collection = current_app.db['results']
@@ -40,8 +40,6 @@ def list_alert_types():
     if not url:
         return jsonify({'error': 'No URL provided'}), 400
 
-    collection = current_app.db['results']
-    result = collection.find_one({'url': url}, {'alerts': 1})
 
     if not result:
         return jsonify({'error': 'No scan results found for this URL'}), 404
@@ -72,7 +70,7 @@ def get_alert_details(alert_type):
 
     return jsonify({'alert_type': alert_type, 'details': alert_details}), 200
 
-# Nmap Scanning Routes
+
 @main.route('/nmap_scan', methods=['POST'])
 def nmap_scan_route():
     if not request.is_json:

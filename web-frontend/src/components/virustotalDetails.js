@@ -3,7 +3,7 @@ import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import { useParams } from 'react-router-dom';
-import './virusTotal.css'; // Ensure your CSS file is imported
+import './virusTotal.css'; 
 
 const ResultsPage = () => {
     const { analysisId } = useParams();
