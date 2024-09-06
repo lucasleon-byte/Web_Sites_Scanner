@@ -276,3 +276,90 @@ li:hover {
 .app-content {
     padding: 20px;
 }
+
+.scan-results-table-nmap {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+
+.scan-results-header-nmap {
+  border: 1px solid #ddd;
+  padding: 8px;
+  background-color: #f2f2f2;
+  text-align: left;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+
+.scan-results-row-nmap {
+  height: 40px;
+}
+
+
+.scan-results-cell-nmap {
+  border: 1px solid #ddd;
+  padding: 8px;
+  font-size: 14px;
+  word-wrap: break-word;
+  white-space: normal;
+}
+.virustotal-section {
+  border: 1px solid #ddd;
+  padding: 16px;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  margin: 16px 0;
+}
+
+.virustotal-section h3 {
+  font-size: 1.25rem;
+  margin-bottom: 12px;
+  color: #333;
+}
+
+.virustotal-data {
+  font-size: 1rem;
+  color: #555;
+}
+
+.virustotal-data p {
+  margin: 8px 0;
+}
+
+.virustotal-data a {
+  color: #1a73e8;
+  text-decoration: none;
+}
+
+.virustotal-data a:hover {
+  text-decoration: underline;
+}
+/* Style for the AG Grid container */
+.results-page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* Full viewport height */
+  width: 100vw; /* Full viewport width */
+}
+.ag-theme-alpine-v .ag-header-cell-v {
+  border-right: 1px solid #afb5b4; /* Thicker border for better visibility */
+  background-color: #cbc8c8; /* Light background for header */
+}
+/* Style for AG Grid container */
+.ag-grid-container-v {
+  flex: 1; /* Allows the grid to take up available space */
+  width: 100%; /* Ensures the grid takes up full width */
+}
+
+/* Adjust font size for AG Grid cells */
+.ag-theme-alpine-v .ag-cell-v {
+  font-size: 12px; /* Adjust font size for cells */
+}
+
+/* Adjust font size for AG Grid headers */
+.ag-theme-alpine .ag-header-cell-text {
+  font-size: 14px; /* Adjust font size for headers */
+}

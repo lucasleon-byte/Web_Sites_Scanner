@@ -1,0 +1,37 @@
+/* Ensure the body and html are set to full height */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+}
+
+/* Scoped style for the ResultsPage container */
+.results-page {
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* Full viewport height */
+    width: 100vw; /* Full viewport width */
+}
+
+/* Scoped style for AG Grid container */
+.results-page .ag-theme-alpine {
+    flex: 1; /* Allows the grid to take up available space */
+    width: 100%; /* Ensures the grid takes up full width */
+}
+
+/* Style for AG Grid headers within ResultsPage */
+.results-page .ag-header-cell {
+    border-right: 1px solid #afb5b4; /* Thicker border for better visibility */
+    background-color: #cbc8c8; /* Light background for header */
+}
+
+/* Adjust font size for AG Grid cells within ResultsPage */
+.results-page .ag-cell {
+    font-size: 16px; /* Adjust font size for cells */
+}
+
+/* Adjust font size for AG Grid headers within ResultsPage */
+.results-page .ag-header-cell-text {
+    font-size: 18px; /* Adjust font size for headers */
+}
