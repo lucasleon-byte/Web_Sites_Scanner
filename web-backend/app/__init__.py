@@ -7,7 +7,7 @@ def create_app():
     CORS(app) 
 
     
-    client = MongoClient('mongodb+srv://leonvunic:Nogomet123@clusterdiplomski.rqewm.mongodb.net/?retryWrites=true&w=majority&ssl=true')
+    client = MongoClient('')
     app.db = client.get_database('scan')
 
     from .routes import main
